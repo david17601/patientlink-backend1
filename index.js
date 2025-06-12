@@ -12,13 +12,15 @@ const PORT = process.env.PORT || 10000;
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://david1760:<db_password>@cluster0.qyetq1m.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+// ✅ Użycie zmiennej środowiskowej dla MongoDB
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}).then(() => console.log('🟢 MongoDB połączone'))
-  .catch(err => console.error('🔴 Błąd połączenia z MongoDB:', err));
+})
+.then(() => console.log('🟢 MongoDB połączone'))
+.catch(err => console.error('🔴 Błąd połączenia z MongoDB:', err));
 
 app.use('/api/register-tablet', registerRoute);
-app.use('/api/request', requestRoute); // ⬅️ Obsługa zgłoszeń
+app.use('/api/request', requestRoute);
 
 app.listen(PORT, () => console.log(`🚀 Backend działa na http://localhost:${PORT}`));
